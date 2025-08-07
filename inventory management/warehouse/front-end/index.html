@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warehouse Inventory</title>
+</head>
+<body>
+    <h1>Warehouse Inventory</h1>
+
+    <h2>Products</h2>
+    <ul id="product-list"></ul>
+
+    <h2>Stock Movements</h2>
+    <ul id="transaction-list"></ul>
+
+    <h2>Current Inventory</h2>
+    <ul id="inventory-list"></ul>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            /**
+             * Fetches data from a given API endpoint and populates a list in the DOM.
+             * @param {string} endpoint - The API endpoint URL to fetch data from.
+             * @param {string} listId - The ID of the <ul> element to populate.
+             * @param {function(object): string} itemFormatter - A function that takes a data item and returns the string to display.
+             */
+            async function fetchAndPopulateList(endpoint, listId, itemFormatter) {
+                const listElement = document.getElementById(listId);
+                listElement.innerHTML = '<li>Loading...</li>'; // Provide loading feedback
+
+                try {
+                    const response = await fetch(endpoint);
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    const data = await response.json();
+
+                    listElement.innerHTML = ''; // Clear loading message
+
+                    if (data.length === 0) {
+                        listElement.innerHTML = '<li>No items to display.</li>';
+                        return;
+                    }
+
+                    data.forEach(item => {
+                        const li = document.createElement('li');
+                        li.textContent = itemFormatter(item);
+                        listElement.appendChild(li);
+                    });
+                } catch (error) {
+                    console.error(`Failed to fetch from ${endpoint}:`, error);
+                    listElement.innerHTML = `<li>Error loading data. See console for details.</li>`;
+                }
+            }
+
+            // Fetch and display products
+            fetchAndPopulateList(
+                '/api/products/',
+                'product-list',
+                (product) => `${product.name} - ${product.description}`
+            );
+
+            // Fetch and display transactions
+            fetchAndPopulateList(
+                '/api/transactions/',
+                'transaction-list',
+                (t) => `${t.transaction_type} - ${new Date(t.transaction_date).toLocaleString()}`
+            );
+
+            // Fetch and display inventory
+            fetchAndPopulateList(
+                '/api/transactions/inventory/',
+                'inventory-list',
+                (item) => `${item.product}: ${item.quantity}`
+            );
+        });
+    </script>
+</body>
+</html>
