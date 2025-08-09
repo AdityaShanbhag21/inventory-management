@@ -37,7 +37,7 @@ Designed for **clean API design**, **maintainability**, and **easy deployment** 
 - **Language:** Python 3.10+
 
 ---
-## ⚙️ Installation & Setup
+##  Installation & Setup
 
 ### 1. Clone the repository
 ```bash
