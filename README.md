@@ -4,6 +4,9 @@ A minimal yet production-ready **Inventory Tracking System** built with **Django
 Tracks **stock movements** in a warehouse (IN / OUT transactions) and provides real-time inventory levels per product.  
 Designed for **clean API design**, **maintainability**, and **easy deployment** (tested on Render).
 
+![License](https://img.shields.io/badge/License-MIT-green.svg)
+![Python](https://img.shields.io/badge/Python-3.10+-blue)
+
 ---
 
 # Features
@@ -41,7 +44,7 @@ Designed for **clean API design**, **maintainability**, and **easy deployment** 
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/yourusername/inventory-management.git
+git clone https://github.com/AdityaShanbhag21/inventory-management.git
 cd inventory-management
 ```
 ### 2. Create a virtual environment
